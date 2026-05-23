@@ -1,17 +1,29 @@
 import { Trash2 } from 'lucide-react';
 
 interface Appointment {
-  id: number;
-  name: string;
-  address: string;
+  id: string;
+  customer_name: string;
   phone: string;
-  date: string;
-  time: string;
+  email?: string;
+  address: string;
+
+  num_bed: number;
+  num_bath: number;
+  num_floors: number;
+
+  appointment_date: string;
+  appointment_time: string;
+  duration: number | null;
+  frequency_weeks: number;
+
+  status: 'scheduled' | 'in_progress' | 'completed' | 'canceled';
+
+  notes?: string;
 }
 
 interface Props {
   appointments: Appointment[];
-  deleteAppointment: (id: number) => void;
+  deleteAppointment: (id: string) => void;
 }
 
 export default function AppointmentList({
@@ -33,7 +45,7 @@ export default function AppointmentList({
             className="p-4 hover:bg-gray-50 transition flex justify-between"
           >
             <div>
-              <h4 className="font-semibold">{apt.name}</h4>
+              <h4 className="font-semibold">{apt.customer_name}</h4>
               <p className="text-sm text-gray-600">{apt.address}</p>
               <p className="text-sm text-gray-600">{apt.phone}</p>
             </div>

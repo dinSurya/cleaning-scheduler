@@ -1,16 +1,10 @@
 import { Plus } from 'lucide-react';
 
-interface FormData {
-  name: string;
-  address: string;
-  phone: string;
-  date: string;
-  time: string;
-}
+import { AppointmentFormData } from "@/types/appointment";
 
 interface Props {
-  formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  formData: AppointmentFormData;
+  setFormData: React.Dispatch<React.SetStateAction<AppointmentFormData>>;
   handleAddAppointment: (e: React.FormEvent) => void;
 }
 

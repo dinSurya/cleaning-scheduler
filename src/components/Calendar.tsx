@@ -1,12 +1,24 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Appointment {
-  id: number;
-  name: string;
-  address: string;
+  id: string;
+  customer_name: string;
   phone: string;
-  date: string;
-  time: string;
+  email?: string;
+  address: string;
+
+  num_bed: number;
+  num_bath: number;
+  num_floors: number;
+
+  appointment_date: string;
+  appointment_time: string;
+  duration: number | null;
+  frequency_weeks: number;
+
+  status: 'scheduled' | 'in_progress' | 'completed' | 'canceled';
+
+  notes?: string;
 }
 
 interface CalendarProps {
@@ -35,7 +47,7 @@ export default function Calendar({
       currentMonth.getMonth() + 1
     ).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
-    return appointments.filter(apt => apt.date === dateStr);
+    return appointments.filter(apt => apt.appointment_date === dateStr);
   };
 
   const daysInMonth = getDaysInMonth(currentMonth);
@@ -108,7 +120,7 @@ export default function Calendar({
                     key={apt.id}
                     className="text-xs bg-blue-100 text-blue-800 p-1 rounded truncate"
                   >
-                    {apt.time} - {apt.name}
+                    {apt.appointment_time} - {apt.customer_name}
                   </div>
                 ))}
               </div>
