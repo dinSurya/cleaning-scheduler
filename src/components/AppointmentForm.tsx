@@ -39,7 +39,7 @@ export default function AppointmentForm({
 
         <input
           type="text"
-          placeholder="Address"
+          placeholder="Home Address"
           value={formData.address}
           onChange={e =>
             setFormData({ ...formData, address: e.target.value })
