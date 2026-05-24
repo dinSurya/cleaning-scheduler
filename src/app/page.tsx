@@ -198,7 +198,7 @@ export default function Home() {
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-mauve-400 text-black px-4 py-2 rounded-lg hover:bg-mauve-500"
+          className="bg-mauve-300 text-black px-4 py-2 rounded-lg hover:bg-slate-500"
         >
           + New Appointment
         </button>
