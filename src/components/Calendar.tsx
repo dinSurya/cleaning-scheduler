@@ -150,14 +150,27 @@ export default function Calendar({
               </div>
 
               <div className="space-y-1">
-                {dayAppointments.slice(0, 3).map(apt => (
-                  <div
-                    key={apt.id}
-                    className="text-[10px] sm:text-xs bg-blue-500/10 text-blue-700
-                              border border-blue-200 px-2 py-1 rounded-lg truncate">
-                    {apt.app_time} - {apt.customer_name}
-                  </div>
-                ))}
+                {dayAppointments.slice(0, 3).map(apt => {
+                  const status = getAppointmentStatus(apt);
+
+                  return (
+                    <div
+                      key={apt.id}
+                      className={`text-[10px] sm:text-xs px-2 py-1 rounded-lg truncate
+                                ${
+                                  status === 'scheduled'
+                                    ? 'bg-blue-100 text-blue-700'
+                                    : status === 'in_progress'
+                                    ? 'bg-yellow-100 text-yellow-700'
+                                    : status === 'completed'
+                                    ? 'bg-green-100 text-green-700'
+                                    : 'bg-red-100 text-red-700'
+                                }
+                              `}>
+                      {apt.app_time} - {apt.customer_name}
+                    </div>
+                  );
+                })}
 
                 {dayAppointments.length > 3 && (
                   <div className="text-[10px] text-gray-500">
