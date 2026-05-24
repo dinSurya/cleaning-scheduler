@@ -135,7 +135,7 @@ export default function Home() {
     const { data, error } = await supabase
       .from("appointments")
       .select("*")
-      .order("appointment_date", { ascending: true });
+      .order("app_date", { ascending: true });
 
     if (error) {
       console.error(error);
