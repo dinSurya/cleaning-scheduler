@@ -212,6 +212,7 @@ export default function Home() {
       const { data, error } = await supabase
         .from("appointments")
         .select("*")
+        .eq("archived", false)
         .order("app_date", { ascending: true });
 
       if (error) {
