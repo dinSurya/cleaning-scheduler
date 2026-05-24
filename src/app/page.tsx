@@ -174,7 +174,16 @@ export default function Home() {
           Cleaning Schedule
         </h1>
 
+
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+          <div>
+            <AppointmentList
+              appointments={appointments}
+              deleteAppointment={deleteAppointment}
+            />
+          </div>
 
           <div className="lg:col-span-2">
             <Calendar
@@ -199,11 +208,6 @@ export default function Home() {
           </div>
 
         </div>
-
-        <AppointmentList
-          appointments={appointments}
-          deleteAppointment={deleteAppointment}
-        />
 
       </div>
     </div>
