@@ -61,10 +61,12 @@ export default function AppointmentForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
 
+        <label className="block text-sm font-medium mb-1">
+          Number of Floors
+        </label>
         <input
           type="number"
           min={1}
-          placeholder="Number of Floors"
           value={formData.num_floors}
           onChange={e =>
             setFormData({ ...formData, num_floors: Number(e.target.value) })
@@ -72,10 +74,12 @@ export default function AppointmentForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
 
+        <label className="block text-sm font-medium mb-1">
+          Number of Bedrooms
+        </label>
         <input
           type="number"
           min={1}
-          placeholder="Number of Bedrooms"
           value={formData.num_bed}
           onChange={e =>
             setFormData({ ...formData, num_bed: Number(e.target.value) })
@@ -83,10 +87,12 @@ export default function AppointmentForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
 
+        <label className="block text-sm font-medium mb-1">
+          Number of Bathrooms
+        </label>
         <input
           type="number"
           min={1}
-          placeholder="Number of Bathrooms"
           value={formData.num_bath}
           onChange={e =>
             setFormData({ ...formData, num_bath: Number(e.target.value) })
@@ -112,10 +118,12 @@ export default function AppointmentForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
 
+        <label className="block text-sm font-medium mb-1">
+          Frequency of Cleaning (number of weeks)
+        </label>
         <input
           type="number"
           min={0}
-          placeholder="Frequency of Cleaning (number of weeks)"
           value={formData.frequency_weeks}
           onChange={e =>
             setFormData({ ...formData, frequency_weeks: Number(e.target.value) })

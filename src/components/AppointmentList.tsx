@@ -38,7 +38,7 @@ export default function AppointmentList({
         </h3>
       </div>
 
-      <div className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
+      <div className="divide-y divide-gray-200">
         {appointments.map(apt => (
           <div
             key={apt.id}
