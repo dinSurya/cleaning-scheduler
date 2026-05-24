@@ -21,9 +21,13 @@ export default function AppointmentForm({
       </h3>
 
       <form onSubmit={handleAddAppointment} className="space-y-4">
+
+        <label className="block text-sm font-medium mb-1">
+          Customer Name
+        </label>
         <input
           type="text"
-          placeholder="Customer Name"
+          placeholder="John Doe"
           value={formData.name}
           onChange={e =>
             setFormData({ ...formData, name: e.target.value })
@@ -31,9 +35,12 @@ export default function AppointmentForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
 
+        <label className="block text-sm font-medium mb-1">
+          Phone Number
+        </label>
         <input
           type="tel"
-          placeholder="Phone"
+          placeholder="1234567890"
           value={formData.phone}
           onChange={e =>
             setFormData({ ...formData, phone: e.target.value })
@@ -41,6 +48,9 @@ export default function AppointmentForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
 
+        <label className="block text-sm font-medium mb-1">
+          Email Address
+        </label>
         <input
           type="email"
           placeholder="Email: xyz@email.com"
@@ -51,9 +61,12 @@ export default function AppointmentForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
 
+        <label className="block text-sm font-medium mb-1">
+          Home Address
+        </label>
         <input
           type="text"
-          placeholder="Home Address"
+          placeholder="123 Main St."
           value={formData.address}
           onChange={e =>
             setFormData({ ...formData, address: e.target.value })
@@ -100,6 +113,9 @@ export default function AppointmentForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
 
+        <label className="block text-sm font-medium mb-1">
+          Date of Service
+        </label>
         <input
           type="date"
           value={formData.date}
@@ -109,6 +125,9 @@ export default function AppointmentForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
 
+        <label className="block text-sm font-medium mb-1">
+          Time of Service
+        </label>
         <input
           type="time"
           value={formData.time}
@@ -131,6 +150,9 @@ export default function AppointmentForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
 
+        <label className="block text-sm font-medium mb-1">
+          Special Customer Requests
+        </label>
         <input
           type="text"
           placeholder="Notes from Customer (special requests)"

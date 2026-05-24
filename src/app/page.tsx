@@ -31,86 +31,104 @@ interface Appointment {
 }
 
 export default function Home() {
-  
+
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<AppointmentFormData>({
-  name: '',
-  phone: '',
-  email: '',
-  address: '',
+    name: '',
+    phone: '',
+    email: '',
+    address: '',
 
-  date: '',
-  time: '',
+    date: '',
+    time: '',
 
-  num_bed: 1,
-  num_bath: 1,
-  num_floors: 1,
+    num_bed: 1,
+    num_bath: 1,
+    num_floors: 1,
 
-  frequency_weeks: 1,
+    frequency_weeks: 1,
 
-  notes: '',
-});
+    notes: '',
+  });
 
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const handleAddAppointment = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
+    setError(null);
 
-  const duration =
-  1 +
-  formData.num_bed * 1 +
-  formData.num_bath * 0.5 +
-  formData.num_floors * 0.75; /* formula to calculate duration */
+    if (
+      !formData.name ||
+      !formData.phone ||
+      !formData.address ||
+      !formData.date ||
+      !formData.time
+    ) {
+      setError("Please fill in all required fields.");
+      return;
+    }
 
-  const newAppointment = {
-  customer_name: formData.name,
-  phone_number: formData.phone,
-  email: formData.email,
-  address: formData.address,
+    if (formData.num_bed < 0 || formData.num_bath < 0) {
+      setError("Bedrooms and bathrooms must be at least 0.");
+      return;
+    }
 
-  app_date: formData.date,
-  app_time: formData.time,
+    const duration =
+      1 +
+      formData.num_bed * 1 +
+      formData.num_bath * 0.5 +
+      formData.num_floors * 0.75; /* formula to calculate duration */
 
-  num_bed: formData.num_bed,
-  num_bath: formData.num_bath,
-  num_floors: formData.num_floors,
-  duration,
+    const newAppointment = {
+      customer_name: formData.name,
+      phone_number: formData.phone,
+      email: formData.email,
+      address: formData.address,
 
-  frequency_weeks: formData.frequency_weeks,
+      app_date: formData.date,
+      app_time: formData.time,
 
-  notes: formData.notes,
+      num_bed: formData.num_bed,
+      num_bath: formData.num_bath,
+      num_floors: formData.num_floors,
+      duration,
 
-  status: 'scheduled',
-};
+      frequency_weeks: formData.frequency_weeks,
 
-  const { data, error } = await supabase
-    .from("appointments")
-    .insert(newAppointment)
-    .select()
-    .single();
+      notes: formData.notes,
 
-  if (error) {
-    console.error(error);
-    return;
-  }
+      status: 'scheduled',
+    };
 
-  setAppointments(prev => [...prev, data as Appointment]);
-};
+    const { data, error } = await supabase
+      .from("appointments")
+      .insert(newAppointment)
+      .select()
+      .single();
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setAppointments(prev => [...prev, data as Appointment]);
+  };
 
   const deleteAppointment = async (id: string) => {
-  const { error } = await supabase
-    .from("appointments")
-    .delete()
-    .eq("id", id);
+    const { error } = await supabase
+      .from("appointments")
+      .delete()
+      .eq("id", id);
 
-  if (error) {
-    console.error(error);
-    return;
-  }
+    if (error) {
+      console.error(error);
+      return;
+    }
 
-  setAppointments(prev => prev.filter(apt => apt.id !== id));
-};
+    setAppointments(prev => prev.filter(apt => apt.id !== id));
+  };
 
   const handlePrevMonth = () => {
     setCurrentMonth(
@@ -131,22 +149,22 @@ export default function Home() {
   };
 
   useEffect(() => {
-  async function fetchAppointments() {
-    const { data, error } = await supabase
-      .from("appointments")
-      .select("*")
-      .order("app_date", { ascending: true });
+    async function fetchAppointments() {
+      const { data, error } = await supabase
+        .from("appointments")
+        .select("*")
+        .order("app_date", { ascending: true });
 
-    if (error) {
-      console.error(error);
-      return;
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      setAppointments(data || []);
     }
 
-    setAppointments(data || []);
-  }
-
-  fetchAppointments();
-}, []);
+    fetchAppointments();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
@@ -168,6 +186,11 @@ export default function Home() {
           </div>
 
           <div>
+            {error && (
+              <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
             <AppointmentForm
               formData={formData}
               setFormData={setFormData}
