@@ -34,6 +34,7 @@ export default function Home() {
 
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [formData, setFormData] = useState<AppointmentFormData>({
     name: '',
@@ -175,6 +176,42 @@ export default function Home() {
         </h1>
 
 
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-gray-600 text-black px-4 py-2 rounded-lg hover:bg-gray-700"
+        >
+          + New Appointment
+        </button>
+
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+
+            <div className="bg-white w-full max-w-lg rounded-lg p-6 relative">
+
+              {/* Close button */}
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-2 right-2 text-gray-500 hover:text-black"
+              >
+                ✕
+              </button>
+
+              {error && (
+                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+                  {error}
+                </div>
+              )}
+
+              {/* Your form */}
+              <AppointmentForm
+                formData={formData}
+                setFormData={setFormData}
+                handleAddAppointment={handleAddAppointment}
+              />
+            </div>
+
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
@@ -191,19 +228,6 @@ export default function Home() {
               appointments={appointments}
               handlePrevMonth={handlePrevMonth}
               handleNextMonth={handleNextMonth}
-            />
-          </div>
-
-          <div>
-            {error && (
-              <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
-                {error}
-              </div>
-            )}
-            <AppointmentForm
-              formData={formData}
-              setFormData={setFormData}
-              handleAddAppointment={handleAddAppointment}
             />
           </div>
 
