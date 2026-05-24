@@ -47,7 +47,14 @@ export default function Calendar({
       currentMonth.getMonth() + 1
     ).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
-    return appointments.filter(apt => apt.app_date === dateStr);
+    return appointments
+      .filter(apt => apt.app_date === dateStr)
+      .sort((a, b) => {
+        const timeA = new Date(`${a.app_date}T${a.app_time}`);
+        const timeB = new Date(`${b.app_date}T${b.app_time}`);
+
+        return timeA.getTime() - timeB.getTime();
+      })
   };
 
   const daysInMonth = getDaysInMonth(currentMonth);
@@ -157,15 +164,14 @@ export default function Calendar({
                     <div
                       key={apt.id}
                       className={`text-[10px] sm:text-xs px-2 py-1 rounded-lg truncate
-                                ${
-                                  status === 'scheduled'
-                                    ? 'bg-blue-100 text-blue-700'
-                                    : status === 'in_progress'
-                                    ? 'bg-yellow-100 text-yellow-700'
-                                    : status === 'completed'
-                                    ? 'bg-green-100 text-green-700'
-                                    : 'bg-red-100 text-red-700'
-                                }
+                                ${status === 'scheduled'
+                          ? 'bg-blue-100 text-blue-700'
+                          : status === 'in_progress'
+                            ? 'bg-yellow-100 text-yellow-700'
+                            : status === 'completed'
+                              ? 'bg-green-100 text-green-700'
+                              : 'bg-red-100 text-red-700'
+                        }
                               `}>
                       {apt.app_time} - {apt.customer_name}
                     </div>

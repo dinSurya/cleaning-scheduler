@@ -114,6 +114,47 @@ export default function Home() {
       status: 'scheduled',
     };
 
+    const newStart = new Date(
+      `${formData.date}T${formData.time}`
+    );
+
+    const newEnd = new Date(
+      newStart.getTime() + duration * 60 * 60 * 1000
+    );
+
+    const cutoff = new Date(`${formData.date}T15:00`);
+
+    if (newStart > cutoff) {
+      setError("Appointments cannot start after 3:00 PM.");
+      return;
+    }
+
+    const sameDayAppointments = appointments.filter(
+      apt => apt.app_date === formData.date
+    );
+
+    for (const apt of sameDayAppointments) {
+      const existingStart = new Date(
+        `${apt.app_date}T${apt.app_time}`
+      );
+
+      const existingEnd = new Date(
+        existingStart.getTime() +
+        apt.duration * 60 * 60 * 1000
+      );
+
+      const overlaps =
+        newStart < existingEnd &&
+        newEnd > existingStart;
+
+      if (overlaps) {
+        setError(
+          `Conflicts with another appointment at ${apt.app_time}`
+        );
+        return;
+      }
+    }
+
     const { data, error } = await supabase
       .from("appointments")
       .insert(newAppointment)
