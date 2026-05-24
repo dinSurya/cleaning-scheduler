@@ -36,6 +36,20 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const initialFormData = {
+    name: '',
+    phone: '',
+    email: '',
+    address: '',
+    date: '',
+    time: '',
+    num_bed: 1,
+    num_bath: 1,
+    num_floors: 1,
+    frequency_weeks: 1,
+    notes: '',
+  };
+
   const [formData, setFormData] = useState<AppointmentFormData>({
     name: '',
     phone: '',
@@ -115,6 +129,12 @@ export default function Home() {
     }
 
     setAppointments(prev => [...prev, data as Appointment]);
+
+    setIsModalOpen(false);            // closes modal
+
+    setTimeout(() => {
+      setFormData(initialFormData);   // clears form quietly
+    }, 200);
   };
 
   const deleteAppointment = async (id: string) => {
@@ -185,7 +205,7 @@ export default function Home() {
 
         {isModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            
+
             <div className="bg-white w-[95%] sm:max-w-lg max-h-[90vh] overflow-y-auto rounded-lg p-4 sm:p-6 relative">
               {/* Close button */}
               <button
