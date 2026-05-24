@@ -65,7 +65,7 @@ export default function Home() {
 
   const newAppointment = {
   customer_name: formData.name,
-  phone: formData.phone,
+  phone_number: formData.phone,
   email: formData.email,
   address: formData.address,
 
