@@ -178,16 +178,15 @@ export default function Home() {
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-gray-600 text-black px-4 py-2 rounded-lg hover:bg-gray-700"
+          className="bg-mauve-400 text-black px-4 py-2 rounded-lg hover:bg-mauve-500"
         >
           + New Appointment
         </button>
 
         {isModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-
-            <div className="bg-white w-full max-w-lg rounded-lg p-6 relative">
-
+            
+            <div className="bg-white w-[95%] sm:max-w-lg max-h-[90vh] overflow-y-auto rounded-lg p-4 sm:p-6 relative">
               {/* Close button */}
               <button
                 onClick={() => setIsModalOpen(false)}
