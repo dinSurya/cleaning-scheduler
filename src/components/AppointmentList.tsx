@@ -11,8 +11,8 @@ interface Appointment {
   num_bath: number;
   num_floors: number;
 
-  appointment_date: string;
-  appointment_time: string;
+  app_date: string;
+  app_time: string;
   duration: number | null;
   frequency_weeks: number;
 
@@ -48,6 +48,8 @@ export default function AppointmentList({
               <h4 className="font-semibold">{apt.customer_name}</h4>
               <p className="text-sm text-gray-600">{apt.address}</p>
               <p className="text-sm text-gray-600">{apt.phone}</p>
+              <p className="text-sm text-gray-600">{apt.app_date}, {apt.app_time}</p>
+              <p className="text-sm text-gray-600">Requests: {apt.notes}</p>
             </div>
 
             <button

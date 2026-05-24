@@ -75,7 +75,7 @@ export default function Home() {
   num_bed: formData.num_bed,
   num_bath: formData.num_bath,
   num_floors: formData.num_floors,
-  duration: duration,
+  duration,
 
   frequency_weeks: formData.frequency_weeks,
 
