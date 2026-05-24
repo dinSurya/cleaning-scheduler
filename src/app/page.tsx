@@ -22,7 +22,7 @@ interface Appointment {
 
   app_date: string;
   app_time: string;
-  duration: number | null;
+  duration: number;
   frequency_weeks: number;
 
   status: 'scheduled' | 'in_progress' | 'completed' | 'canceled';
@@ -91,10 +91,7 @@ export default function Home() {
     }
 
     const duration =
-      1 +
-      formData.num_bed * 1 +
-      formData.num_bath * 0.5 +
-      formData.num_floors * 0.75; /* formula to calculate duration */
+      1 + formData.num_floors; /* formula to calculate duration */
 
     const newAppointment = {
       customer_name: formData.name,
