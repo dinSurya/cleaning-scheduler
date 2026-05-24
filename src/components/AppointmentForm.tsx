@@ -32,6 +32,26 @@ export default function AppointmentForm({
         />
 
         <input
+          type="tel"
+          placeholder="Phone"
+          value={formData.phone}
+          onChange={e =>
+            setFormData({ ...formData, phone: e.target.value })
+          }
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+        />
+
+        <input
+          type="email"
+          placeholder="Email: xyz@email.com"
+          value={formData.email}
+          onChange={e =>
+            setFormData({ ...formData, email: e.target.value })
+          }
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+        />
+
+        <input
           type="text"
           placeholder="Home Address"
           value={formData.address}
@@ -42,11 +62,34 @@ export default function AppointmentForm({
         />
 
         <input
-          type="tel"
-          placeholder="Phone"
-          value={formData.phone}
+          type="number"
+          min={1}
+          placeholder="Number of Floors"
+          value={formData.num_floors}
           onChange={e =>
-            setFormData({ ...formData, phone: e.target.value })
+            setFormData({ ...formData, num_floors: Number(e.target.value) })
+          }
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+        />
+
+        <input
+          type="number"
+          min={1}
+          placeholder="Number of Bedrooms"
+          value={formData.num_bed}
+          onChange={e =>
+            setFormData({ ...formData, num_bed: Number(e.target.value) })
+          }
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+        />
+
+        <input
+          type="number"
+          min={1}
+          placeholder="Number of Bathrooms"
+          value={formData.num_bath}
+          onChange={e =>
+            setFormData({ ...formData, num_bath: Number(e.target.value) })
           }
           className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
@@ -65,6 +108,27 @@ export default function AppointmentForm({
           value={formData.time}
           onChange={e =>
             setFormData({ ...formData, time: e.target.value })
+          }
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+        />
+
+        <input
+          type="number"
+          min={0}
+          placeholder="Frequency of Cleaning (number of weeks)"
+          value={formData.frequency_weeks}
+          onChange={e =>
+            setFormData({ ...formData, frequency_weeks: Number(e.target.value) })
+          }
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+        />
+
+        <input
+          type="text"
+          placeholder="Notes from Customer (special requests)"
+          value={formData.notes}
+          onChange={e =>
+            setFormData({ ...formData, notes: e.target.value })
           }
           className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />

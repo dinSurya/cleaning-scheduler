@@ -20,8 +20,8 @@ interface Appointment {
   num_bath: number;
   num_floors: number;
 
-  appointment_date: string;
-  appointment_time: string;
+  app_date: string;
+  app_time: string;
   duration: number | null;
   frequency_weeks: number;
 
@@ -57,22 +57,31 @@ export default function Home() {
   const handleAddAppointment = async (e: React.FormEvent) => {
   e.preventDefault();
 
+  const duration =
+  1 +
+  formData.num_bed * 1 +
+  formData.num_bath * 0.5 +
+  formData.num_floors * 0.75; /* formula to calculate duration */
+
   const newAppointment = {
   customer_name: formData.name,
   phone: formData.phone,
   email: formData.email,
   address: formData.address,
 
-  appointment_date: formData.date,
-  appointment_time: formData.time,
+  app_date: formData.date,
+  app_time: formData.time,
 
   num_bed: formData.num_bed,
   num_bath: formData.num_bath,
   num_floors: formData.num_floors,
+  duration: duration,
 
   frequency_weeks: formData.frequency_weeks,
 
   notes: formData.notes,
+
+  status: 'scheduled',
 };
 
   const { data, error } = await supabase
