@@ -235,7 +235,7 @@ export default function Home() {
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex gap-2 bg-mauve-300 text-black px-4 py-2 m-8 rounded-lg transition hover:bg-slate-500 hover:text-white"
+          className="flex gap-2 bg-mauve-300 text-black px-4 py-2 rounded-lg transition hover:bg-slate-500 hover:text-white"
         >
           + New Appointment
         </button>
@@ -289,10 +289,28 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
           <div>
-            <AppointmentList
-              appointments={filteredAppointments}
-              deleteAppointment={deleteAppointment}
-            />
+            <div className="flex gap-2 mb-4">
+              {['all', 'active', 'completed', 'archived'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab as any)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition
+                          ${activeTab === tab
+                      ? 'bg-cyan-300 text-black'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }
+                        `}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+            <div>
+              <AppointmentList
+                appointments={filteredAppointments}
+                deleteAppointment={deleteAppointment}
+              />
+            </div>
           </div>
 
           <div className="lg:col-span-2">
