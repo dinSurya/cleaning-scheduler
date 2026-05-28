@@ -26,6 +26,7 @@ interface Appointment {
   frequency_weeks: number;
 
   status: 'scheduled' | 'in_progress' | 'completed' | 'canceled';
+  archived: boolean;
 
   notes?: string;
 }
@@ -112,6 +113,7 @@ export default function Home() {
       notes: formData.notes,
 
       status: 'scheduled',
+      archived: false,
     };
 
     const newStart = new Date(
@@ -226,6 +228,19 @@ export default function Home() {
     fetchAppointments();
   }, []);
 
+  const [activeTab, setActiveTab] = useState<'active' | 'completed' | 'archived'>('active');
+
+  const filteredAppointments = appointments.filter((apt) => {
+    if (activeTab === 'archived') return apt.archived === true;
+
+    if (activeTab === 'completed') return apt.status === 'completed' && !apt.archived;
+
+    return (
+      !apt.archived &&
+      (apt.status === 'scheduled' || apt.status === 'in_progress')
+    );
+  });
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
@@ -271,11 +286,27 @@ export default function Home() {
           </div>
         )}
 
+        <div className="flex gap-2 mb-4">
+          {['active', 'completed', 'archived'].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab as any)}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition
+                          ${activeTab === tab
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }
+                        `}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
           <div>
             <AppointmentList
-              appointments={appointments}
+              appointments={filteredAppointments}
               deleteAppointment={deleteAppointment}
             />
           </div>
@@ -283,7 +314,7 @@ export default function Home() {
           <div className="lg:col-span-2">
             <Calendar
               currentMonth={currentMonth}
-              appointments={appointments}
+              appointments={filteredAppointments}
               handlePrevMonth={handlePrevMonth}
               handleNextMonth={handleNextMonth}
             />
