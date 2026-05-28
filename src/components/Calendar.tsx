@@ -139,21 +139,22 @@ export default function Calendar({
 
               <div className="space-y-1">
                 {dayAppointments.slice(0, 3).map(apt => {
-                  const status = getAppointmentStatus(apt);
+                  const status = apt.status;
 
                   return (
                     <div
                       key={apt.id}
                       className={`text-[10px] sm:text-xs px-2 py-1 rounded-lg truncate
-                                ${status === 'scheduled'
-                          ? 'bg-blue-100 text-blue-700'
-                          : status === 'in_progress'
-                            ? 'bg-yellow-100 text-yellow-700'
-                            : status === 'completed'
-                              ? 'bg-green-100 text-green-700'
-                              : 'bg-red-100 text-red-700'
-                        }
-                              `}>
+                                  ${status === 'scheduled'
+                                    ? 'bg-blue-100 text-blue-700'
+                                  : status === 'in_progress'
+                                    ? 'bg-yellow-100 text-yellow-700'
+                                  : status === 'completed'
+                                    ? 'bg-green-100 text-green-700'
+                                    : 'bg-red-100 text-red-700'
+                                  }
+                                `}
+                    >
                       {apt.app_time} - {apt.customer_name}
                     </div>
                   );

@@ -7,7 +7,6 @@ import AppointmentForm from '@/components/AppointmentForm';
 import AppointmentList from '@/components/AppointmentList';
 import { AppointmentFormData } from "@/types/appointment";
 import { Appointment } from "@/types/appointment";
-import { getAppointmentStatus } from "@/types/appointment";
 
 import { supabase } from "@/lib/supabase";
 
@@ -208,53 +207,22 @@ export default function Home() {
     fetchAppointments();
   }, []);
 
-  useEffect(() => {
-    if (!appointments.length) return;
-
-    let cancelled = false;
-
-    async function syncStatuses() {
-      await Promise.all(
-        appointments.map(async (apt) => {
-          const computed = getAppointmentStatus(apt);
-
-          if (apt.status !== computed && !cancelled) {
-            await supabase
-              .from("appointments")
-              .update({ status: computed })
-              .eq("id", apt.id);
-          }
-        })
-      );
-    }
-
-    syncStatuses();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [appointments]);
-
   const [activeTab, setActiveTab] = useState<'active' | 'completed' | 'archived'>('active');
 
   const filteredAppointments = appointments.filter((apt) => {
-    const status = getAppointmentStatus(apt);
-
     if (activeTab === "archived") {
       return apt.archived === true;
     }
 
     if (activeTab === "completed") {
-      return status === "completed" && !apt.archived;
+      return apt.status === "completed" && !apt.archived;
     }
 
     return (
       !apt.archived &&
-      (status === "scheduled" || status === "in_progress")
+      (apt.status === "scheduled" || apt.status === "in_progress")
     );
   });
-
-
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
