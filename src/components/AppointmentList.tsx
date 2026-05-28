@@ -30,7 +30,9 @@ export default function AppointmentList({
               <p className="text-sm text-gray-600">{apt.address}</p>
               <p className="text-sm text-gray-600">{apt.phone}</p>
               <p className="text-sm text-gray-600">{apt.app_date}, {apt.app_time}</p>
+              <p className="text-sm text-gray-600">{apt.duration} Hours</p>
               <p className="text-sm text-gray-600">Requests: {apt.notes}</p>
+              <p className="text-sm text-gray-600">Status: {apt.status}</p>
             </div>
 
             <button

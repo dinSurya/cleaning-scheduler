@@ -207,9 +207,9 @@ export default function Home() {
     fetchAppointments();
   }, []);
 
-  const [activeTab, setActiveTab] = useState<'active' | 'completed' | 'archived'>('active');
+  const [activeTab, setActiveTab] = useState<'all' | 'active' | 'completed' | 'archived'>('active');
 
-  const filteredAppointments = appointments.filter((apt) => {
+  const filteredAppointments = activeTab === 'all' ? appointments : appointments.filter((apt) => {
     if (activeTab === "archived") {
       return apt.archived === true;
     }
@@ -235,7 +235,7 @@ export default function Home() {
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-mauve-300 text-black px-4 py-2 rounded-lg hover:bg-slate-500"
+          className="flex gap-2 bg-mauve-300 text-black px-4 py-2 rounded-lg hover:bg-slate-500"
         >
           + New Appointment
         </button>
@@ -270,13 +270,13 @@ export default function Home() {
         )}
 
         <div className="flex gap-2 mb-4">
-          {['active', 'completed', 'archived'].map((tab) => (
+          {['all', 'active', 'completed', 'archived'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab as any)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition
                           ${activeTab === tab
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-cyan-300 text-black'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }
                         `}
@@ -285,6 +285,7 @@ export default function Home() {
             </button>
           ))}
         </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
           <div>
