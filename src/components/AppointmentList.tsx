@@ -1,25 +1,6 @@
 import { Trash2 } from 'lucide-react';
 
-interface Appointment {
-  id: string;
-  customer_name: string;
-  phone: string;
-  email?: string;
-  address: string;
-
-  num_bed: number;
-  num_bath: number;
-  num_floors: number;
-
-  app_date: string;
-  app_time: string;
-  duration: number | null;
-  frequency_weeks: number;
-
-  status: 'scheduled' | 'in_progress' | 'completed' | 'canceled';
-
-  notes?: string;
-}
+import { Appointment } from "@/types/appointment";
 
 interface Props {
   appointments: Appointment[];

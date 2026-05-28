@@ -6,30 +6,10 @@ import Calendar from '@/components/Calendar';
 import AppointmentForm from '@/components/AppointmentForm';
 import AppointmentList from '@/components/AppointmentList';
 import { AppointmentFormData } from "@/types/appointment";
+import { Appointment } from "@/types/appointment";
+import { getAppointmentStatus } from "@/types/appointment";
 
 import { supabase } from "@/lib/supabase";
-
-interface Appointment {
-  id: string;
-  customer_name: string;
-  phone: string;
-  email?: string;
-  address: string;
-
-  num_bed: number;
-  num_bath: number;
-  num_floors: number;
-
-  app_date: string;
-  app_time: string;
-  duration: number;
-  frequency_weeks: number;
-
-  status: 'scheduled' | 'in_progress' | 'completed' | 'canceled';
-  archived: boolean;
-
-  notes?: string;
-}
 
 export default function Home() {
 
@@ -209,37 +189,72 @@ export default function Home() {
     );
   };
 
-  useEffect(() => {
-    async function fetchAppointments() {
-      const { data, error } = await supabase
-        .from("appointments")
-        .select("*")
-        .eq("archived", false)
-        .order("app_date", { ascending: true });
+  const fetchAppointments = async () => {
+    const { data, error } = await supabase
+      .from("appointments")
+      .select("*")
+      .eq("archived", false)
+      .order("app_date", { ascending: true });
 
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      setAppointments(data || []);
+    if (error) {
+      console.error(error);
+      return;
     }
 
+    setAppointments(data || []);
+  };
+
+  useEffect(() => {
     fetchAppointments();
   }, []);
+
+  useEffect(() => {
+    if (!appointments.length) return;
+
+    let cancelled = false;
+
+    async function syncStatuses() {
+      await Promise.all(
+        appointments.map(async (apt) => {
+          const computed = getAppointmentStatus(apt);
+
+          if (apt.status !== computed && !cancelled) {
+            await supabase
+              .from("appointments")
+              .update({ status: computed })
+              .eq("id", apt.id);
+          }
+        })
+      );
+    }
+
+    syncStatuses();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [appointments]);
 
   const [activeTab, setActiveTab] = useState<'active' | 'completed' | 'archived'>('active');
 
   const filteredAppointments = appointments.filter((apt) => {
-    if (activeTab === 'archived') return apt.archived === true;
+    const status = getAppointmentStatus(apt);
 
-    if (activeTab === 'completed') return apt.status === 'completed' && !apt.archived;
+    if (activeTab === "archived") {
+      return apt.archived === true;
+    }
+
+    if (activeTab === "completed") {
+      return status === "completed" && !apt.archived;
+    }
 
     return (
       !apt.archived &&
-      (apt.status === 'scheduled' || apt.status === 'in_progress')
+      (status === "scheduled" || status === "in_progress")
     );
   });
+
+
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
@@ -293,9 +308,9 @@ export default function Home() {
               onClick={() => setActiveTab(tab as any)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition
                           ${activeTab === tab
-                            ? 'bg-blue-600 text-white'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }
                         `}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
