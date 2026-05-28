@@ -235,7 +235,7 @@ export default function Home() {
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex gap-2 bg-mauve-300 text-black px-4 py-2 rounded-lg transition hover:bg-slate-500 hover:text-white"
+          className="flex gap-2 bg-mauve-300 text-black px-4 py-2 mb-2 rounded-lg transition hover:bg-slate-500 hover:text-white"
         >
           + New Appointment
         </button>
