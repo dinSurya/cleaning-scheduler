@@ -248,7 +248,7 @@ export default function Home() {
                 onClick={() => setIsModalOpen(false)}
                 className="absolute top-2 right-2 text-gray-500 hover:text-black"
               >
-                ✕
+                Close Form
               </button>
 
               {error && (
@@ -287,7 +287,7 @@ export default function Home() {
                 </button>
               ))}
             </div>
-            <div>
+            <div className="max-h-[70vh] overflow-y-auto pr-2">
               <AppointmentList
                 appointments={filteredAppointments}
                 deleteAppointment={deleteAppointment}
